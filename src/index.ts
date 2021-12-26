@@ -1,9 +1,17 @@
-const hi = 'HELLOw!'
+import Auth from './authentication'
+import { IAuthorization } from './types'
 
-export function hello(world: string = hi): string {
-  return `Hello22222
-  
-  
-  
-  ${world}! `
+interface IMAL extends IAuthorization {
+  generatePCKE: () => Promise<string>
+  generateAuthURL: (
+    clientId: string,
+    codeChallenge?: string | undefined
+  ) => Promise<string>
+  createClient: () => void
 }
+
+const mal = {
+  ...Auth,
+  createClient: () => console.log('hey'),
+} as IMAL
+export default mal

@@ -6,3 +6,7 @@ export enum ResponseType {
 export enum CodeChallengeMethod {
   Plain = 'plain',
 }
+
+export enum GrantType {
+  AuthorizationCode = 'authorization_code',
+}
