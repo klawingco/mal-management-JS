@@ -1,17 +1,16 @@
 import Auth from './authentication'
-import { IAuthorization } from './types'
-
-interface IMAL extends IAuthorization {
-  generatePCKE: () => Promise<string>
-  generateAuthURL: (
-    clientId: string,
-    codeChallenge?: string | undefined
-  ) => Promise<string>
-  createClient: () => void
-}
+import { IMAL, IMALClient, APIFetcher } from './types'
+import { apiFetcher } from './lib/api-adapter'
+import { getAnime } from './anime'
 
 const mal = {
   ...Auth,
-  createClient: () => console.log('hey'),
+  createClient: (clientOpts: IMALClient) => {
+    // Build the apiFetcher based from options
+    const apiRequest = (apiOpts: APIFetcher) => apiFetcher(apiOpts, clientOpts)
+    return {
+      getAnime: (animeOpts) => getAnime(apiRequest, animeOpts),
+    }
+  },
 } as IMAL
 export default mal

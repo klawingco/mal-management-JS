@@ -12,8 +12,6 @@ const test = async () => {
   const authURL = await mal.generateAuthURL(CLIENT_ID, challenge)
   console.log('CALLBACK URL', authURL)
 
-  const client = mal.createClient()
-
   // const response = await authorize(
   //   CLIENT_ID,
   //   CLIENT_SECRET,
@@ -21,6 +19,14 @@ const test = async () => {
   //   inputCcode
   // )
   // console.log('AUTH ACCESS', response)
+
+  const client = mal.createClient({ clientId: CLIENT_ID })
+
+  const animes = await client
+    .getAnime({ q: 'Jujutsu Kaisen' })
+    .catch((err) => console.log(err))
+
+  console.log('RESULT', animes && animes?.data)
 }
 
 const testObj = {
