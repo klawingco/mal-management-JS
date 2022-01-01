@@ -60,7 +60,7 @@ You could chain it like this
   const animes = await client
     .getAnime({ q: 'Jujutsu Kaisen' })[0].getDetail()
 ```
-You could also **configure** the fields you want to show using `field` options
+You could also **configure** the fields you want to show using `fields` options
 
 ```javascript
   const animes = await client
