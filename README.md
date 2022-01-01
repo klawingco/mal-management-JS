@@ -81,9 +81,8 @@ const animeDetail = await client
 
 
 ## Gotchas
-<hr/>
 
-## About `fields` field
+### About `fields` field
 
 Fields are way to control what `fields` are going to be responsed by MAL API. 
 
@@ -91,7 +90,7 @@ At default `id, title, main_picture` will always be present regardless if you pu
 
 
 
-## Future Plan
+### Future Plan
 The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also ease the backend integration.
 
 For example, if in `FUTURE` MAL officially release an api for a Anime's characters.
@@ -106,6 +105,5 @@ client.getAnimeDetail({id: 30276}).getCharacters()
 <br/>
 
 ## LICENSE
-<hr/>
 MIT
 
