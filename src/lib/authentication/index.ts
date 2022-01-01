@@ -1,8 +1,12 @@
 import axios from 'axios'
 import crypto from 'crypto'
-import { MAL_AUTH_URL } from '../constants'
-import { queryfyObj } from '../util/index'
-import { ResponseType, CodeChallengeMethod, GrantType } from '../types/oauth2'
+import { MAL_AUTH_URL } from '../../constants'
+import { queryfyObj } from '../../util/index'
+import {
+  ResponseType,
+  CodeChallengeMethod,
+  GrantType,
+} from '../../types/oauth2'
 
 const generatePCKE = () =>
   new Promise<string>((resolve, reject) =>

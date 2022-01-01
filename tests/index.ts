@@ -1,9 +1,11 @@
 import dotenv from 'dotenv'
 import mal from '../src/'
+import { AnimeFields } from '../src/types'
 dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID || ''
 const CLIENT_SECRET = process.env.CLIENT_SECRET || ''
+const ACCESS_TOKEN = process.env.ACCESS_TOKEN || ''
 
 const test = async () => {
   const challenge = await mal.generatePCKE()
@@ -20,22 +22,41 @@ const test = async () => {
   // )
   // console.log('AUTH ACCESS', response)
 
-  const client = mal.createClient({ clientId: CLIENT_ID })
+  const client = mal.createClient({
+    clientId: CLIENT_ID,
+    accessToken: ACCESS_TOKEN,
+  })
 
   const animes = await client
     .getAnime({ q: 'Jujutsu Kaisen' })
     .catch((err) => console.log(err))
 
-  console.log('RESULT', animes && animes?.data)
+  console.log('RESULT', animes && animes)
+  if(animes){
+    const firstResult = animes[0]
+    const animeDetail = await firstResult?.getDetail({fields: [AnimeFields.alternative_titles]})
+    .catch(err => console.log(err))
+    console.log('ANIME DETAIL', animeDetail)
+  }
+
+
+  console.log("Individual anime detail")
+  const animeDetail = await client
+    .getAnimeDetail({
+      id: 30276,
+      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    })
+    .catch((err) => console.log(err))
+  console.log('One punch man', animeDetail)
 }
 
-const testObj = {
-  name: 'KL',
-  funcTest: () => console.log('hey'),
-}
+// const testObj = {
+//   name: 'KL',
+//   funcTest: () => console.log('hey'),
+// }
 
-console.log(testObj)
-console.log(JSON.stringify(testObj))
+// console.log(testObj)
+// console.log(JSON.stringify(testObj))
 
-console.log('HEYYY', mal)
+// console.log('HEYYY', mal)
 test()

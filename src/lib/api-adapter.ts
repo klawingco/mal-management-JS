@@ -9,7 +9,7 @@ const apiFetcher = async (opts: APIFetcher, clientOpts: IMALClient) => {
   } else {
     headers['Authorization'] = `Bearer ${clientOpts.accessToken}`
   }
-  console.log('URK', opts.Url)
+  console.log('URL', opts.Url)
   console.log('QUERY', opts.Query)
   return axios({
     method: opts.Method,
