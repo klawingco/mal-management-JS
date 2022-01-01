@@ -6,6 +6,8 @@ const apiFetcher = async (opts: APIFetcher, clientOpts: IMALClient) => {
   const headers: { [key: string]: string } = {}
   if (isPublicOnly) {
     headers['X-MAL-CLIENT-ID'] = clientOpts.clientId
+  } else {
+    headers['Authorization'] = `Bearer ${clientOpts.accessToken}`
   }
   console.log('URK', opts.Url)
   console.log('QUERY', opts.Query)
