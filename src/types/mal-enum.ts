@@ -28,3 +28,15 @@ export enum AnimeFields {
   studios,
   statistics  
 }
+
+export enum AnimeRankingType {
+  all,
+  airing,
+  upcoming,
+  tv,
+  ova,
+  movie,
+  special,
+  bypopularity,
+  favorite
+}

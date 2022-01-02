@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import mal from '../src/'
-import { AnimeFields } from '../src/types'
+import { AnimeFields, AnimeRankingType } from '../src/types'
 dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID || ''
@@ -28,7 +28,7 @@ const test = async () => {
   })
 
   const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })
+    .getAnime({ q: 'Jujutsu Kaisen', fields: [AnimeFields.start_date] })
     .catch((err) => console.log(err))
 
   console.log('RESULT', animes && animes)
@@ -48,6 +48,15 @@ const test = async () => {
     })
     .catch((err) => console.log(err))
   console.log('One punch man', animeDetail)
+
+  console.log('Airing Anime')
+  const animeRanking = await client
+    .getAnimeRanking({
+      ranking_type: AnimeRankingType.airing,
+      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    })
+    .catch((err) => console.log(err))
+  console.log('Airing', animeRanking)  
 }
 
 // const testObj = {

@@ -1,7 +1,7 @@
 import Auth from './lib/authentication'
 import { IMAL, IMALClient, APIFetcher } from './types'
 import { apiFetcher } from './lib/api-adapter'
-import { getAnime, getAnimeDetail } from './lib/anime'
+import { getAnime, getAnimeDetail, getAnimeRanking  } from './lib/anime'
 
 const mal = {
   ...Auth,
@@ -12,7 +12,11 @@ const mal = {
       getAnime: (animeOpts) => getAnime(apiRequest, animeOpts),
       getAnimeDetail: (animeDetailOpts) =>
         getAnimeDetail(apiRequest, animeDetailOpts),
+      getAnimeRanking: (animeRankOpts) =>
+        getAnimeRanking(apiRequest, animeRankOpts),
     }
   },
 } as IMAL
+
+module.exports = mal
 export default mal
