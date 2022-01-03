@@ -52,11 +52,22 @@ const test = async () => {
   console.log('Airing Anime')
   const animeRanking = await client
     .getAnimeRanking({
-      ranking_type: AnimeRankingType.airing,
+      ranking_type: 'airing',
       fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
     })
     .catch((err) => console.log(err))
   console.log('Airing', animeRanking)  
+
+  console.log('Seasonal Anime')
+  const animeSeasonal = await client
+    .getAnimeSeasonal({
+      year: 2020,
+      season: 'fall',
+      sort: 'anime_score',
+      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    })
+    .catch((err) => console.log(err))
+  console.log('Seasonal', animeSeasonal)    
 }
 
 // const testObj = {
