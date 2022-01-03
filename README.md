@@ -74,7 +74,10 @@ You could also **configure** the fields you want to show using `fields` options
 const animeDetail = await client
 .getAnimeDetail({
     id: 30276,
-    fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    // For typescript
+    fields: [AnimeFields.alternative_titles, AnimeFields.start_date], 
+    // For commonjs
+    // fields:  ['alternative_titles', 'start_date']
 })
 ```
 
