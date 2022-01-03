@@ -1,13 +1,13 @@
 {
   "name": "mal-management-js",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A MyAnimeList API Wrapper",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "test",
     "prepublish": "npm run build",
-    "build": "npx tsc -p tsconfig.json",
+    "build": "rm -fr dist/* && npx tsc -p tsconfig.json",
     "build:watch": "npx tsc -w -p tsconfig.json",
     "dev": "nodemon --watch '.' --ext 'ts,js' --exec 'ts-node tests/index.ts' "
   },

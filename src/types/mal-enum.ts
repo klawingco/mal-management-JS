@@ -28,3 +28,9 @@ export enum AnimeFields {
   studios,
   statistics  
 }
+
+export type AnimeRankingType = 'all' | 'airing' |'upcoming' |'tv' |'ova' |'movie' | 'special' |'bypopularity' |'favorite'
+
+export type AnimeSeason = 'winter' | 'spring' | 'summer' | 'fall'
+
+export type AnimeSortType = 'anime_score' | 'anime_num_list_users'

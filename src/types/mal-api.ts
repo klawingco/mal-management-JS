@@ -1,4 +1,4 @@
-import { AnimeDetail, AnimeFields } from '.'
+import { AnimeDetail, AnimeFields, AnimeRankingType, AnimeSeason, AnimeSortType } from '.'
 import { IAuthorization } from './authorization'
 import { Anime } from './mal-api-responses'
 
@@ -11,6 +11,8 @@ export interface IMAL extends IAuthorization {
   createClient: (clientOpts: IMALClient) => {
     getAnime: (opts: AnimeListOptions) => Promise<Anime[]>
     getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
+    getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
+    getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
   }
 }
 
@@ -19,13 +21,18 @@ export interface IMALClient {
   accessToken?: string
 }
 
+
+
 /* MAL api counterpart types */
-export interface AnimeListOptions {
-  q: string
+interface Pagination {
   limit?: number
   offset?: number
 }
 
+export interface AnimeListOptions extends Pagination {
+  q: string
+  fields?: AnimeFields[]
+}
 
 export interface DetailOptions {
   id?: number
@@ -34,6 +41,17 @@ export interface DetailOptions {
 
 export interface AnimeDetailOptions extends DetailOptions {
   id: number
+}
+
+export interface AnimeRankingListOptions extends Pagination {
+  ranking_type: AnimeRankingType
+  fields?: AnimeFields[]
+}
+export interface AnimeSeasonalListOptions extends Pagination {
+  year: number
+  season: AnimeSeason
+  sort: AnimeSortType
+  fields?: AnimeFields[]
 }
 
 
