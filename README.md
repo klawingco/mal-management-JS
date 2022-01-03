@@ -5,11 +5,18 @@
 At first with the roll out of new MAL v2 api, I just want to play around th api itself however I find it inconvenient to do different call to each of items I needed off the api. 
 
 These is heavily inspired from contentful-management-js, and actually created because I want to manage my anime using a globally installed `CLI` . But in order to create a cli, A good wrapper is firstly needed hence this project is born.
+
+Current Features available
+- Public Anime
+
 # Usage
 
 1. [Instantiating the Client](#instantiating-the-client)
-2. [Getting Anime List](#getting-anime-list)
-3. [Getting Anime Detail](#getting-anime-detail)
+2. [Anime List](#getting-anime-list)
+3. [Anime Detail](#getting-anime-detail)
+4. [Anime Ranking List](#getting-anime-ranking-list)
+5. [Seasonal Anime List ](#getting-seasonal-anime-list)
+
 
 ## Instantiating the Client
 
@@ -81,6 +88,42 @@ const animeDetail = await client
 })
 ```
 
+## Getting Anime Ranking List
+
+```javascript
+  const animeRanking = await client
+    .getAnimeRanking({
+      ranking_type: 'airing', 
+      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    })
+  console.log('Airing', animeRanking) 
+```
+**Pro-tip:** If you are on typescript 
+There's a exposed Typescript `Type` called `AnimeRankingType`
+```typescript
+type AnimeRankingType = 'all' | 'airing' |'upcoming' |'tv' |'ova' |'movie' | 'special' |'bypopularity' |'favorite'
+```
+
+
+## Getting Seasonal Anime List
+
+```javascript
+  const animeSeasonal = await client
+    .getAnimeSeasonal({
+      year: 2020,
+      season: 'fall',
+      sort: 'anime_score',
+      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+    })
+```
+**Pro-tip:** If you are on typescript 
+There's a exposed Typescript `Type` called `AnimeSeason` and `AnimeSortType`
+```typescript
+type AnimeSeason = 'winter' | 'spring' | 'summer' | 'fall'
+
+type AnimeSortType = 'anime_score' | 'anime_num_list_users'
+```
+
 
 
 ## Gotchas
@@ -101,7 +144,7 @@ For example, if in `FUTURE` MAL officially release an api for a Anime's characte
 This wrapper could end with api of 
 
 ```javascript
-client.getAnimeDetail({id: 30276}).getCharacters()
+client.getAnimeDetail({id: 30276}).characters()
 ```
 
 
