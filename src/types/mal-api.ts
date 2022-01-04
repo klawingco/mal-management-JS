@@ -21,6 +21,7 @@ export interface IMAL extends IAuthorization {
     getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
     getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
     getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
+    getMangaDetail(mangaDetailOpts: MangaDetailOptions): Promise<any>
   }
 }
 
@@ -62,4 +63,8 @@ export interface AnimeSeasonalListOptions extends Pagination {
   fields?: Fields
 }
 
+
+export interface MangaDetailOptions extends DetailOptions {
+  id: number
+}
 

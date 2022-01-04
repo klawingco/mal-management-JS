@@ -1,26 +1,14 @@
+// This is not a formal tests
 import dotenv from 'dotenv'
 import mal from '../src/'
-import { AnimeFields, AnimeRankingType } from '../src/types'
+import { AnimeFields, AnimeRankingType, MangaFields } from '../src/types'
 dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID || ''
 const CLIENT_SECRET = process.env.CLIENT_SECRET || ''
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN || ''
 
-const test = async () => {
-  const challenge = await mal.generatePCKE()
-  console.log('CHALLENGE KEY', challenge)
-
-  const authURL = await mal.generateAuthURL(CLIENT_ID, challenge)
-  console.log('CALLBACK URL', authURL)
-
-  // const response = await authorize(
-  //   CLIENT_ID,
-  //   CLIENT_SECRET,
-  //   challenge,
-  //   inputCcode
-  // )
-  // console.log('AUTH ACCESS', response)
+const testAnime = async () =>{
   const client = mal.createClient({
     clientId: CLIENT_ID,
     accessToken: ACCESS_TOKEN,
@@ -31,15 +19,15 @@ const test = async () => {
     .catch((err) => console.log(err))
 
   console.log('RESULT', animes && animes)
-  if(animes){
+  if (animes) {
     const firstResult = animes[0]
-    const animeDetail = await firstResult?.getDetail({fields: [AnimeFields.alternative_titles]})
-    .catch(err => console.log(err))
+    const animeDetail = await firstResult
+      ?.getDetail({ fields: [AnimeFields.alternative_titles] })
+      .catch((err) => console.log(err))
     console.log('ANIME DETAIL', animeDetail)
   }
 
-
-  console.log("Individual anime detail")
+  console.log('Individual anime detail')
   const animeDetail = await client
     .getAnimeDetail({
       id: 30276,
@@ -55,7 +43,7 @@ const test = async () => {
       fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
     })
     .catch((err) => console.log(err))
-  console.log('Airing', animeRanking)  
+  console.log('Airing', animeRanking)
 
   console.log('Seasonal Anime')
   const animeSeasonal = await client
@@ -66,7 +54,47 @@ const test = async () => {
       fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
     })
     .catch((err) => console.log(err))
-  console.log('Seasonal', animeSeasonal)    
+  console.log('Seasonal', animeSeasonal)  
+}
+
+const testManga = async () =>{
+
+  const client = mal.createClient({
+    clientId: CLIENT_ID,
+    accessToken: ACCESS_TOKEN,
+  })
+  
+  console.log('Individual manga detail')
+  const animeDetail = await client
+    .getMangaDetail({
+      id: 2,
+      fields: [MangaFields['authors{first_name,last_name}']],
+    })
+    .catch((err) => console.log(err))
+  console.log('Berserk', animeDetail)  
+  
+  
+}
+const test = async () => {
+  const challenge = await mal.generatePCKE()
+  console.log('CHALLENGE KEY', challenge)
+
+  const authURL = await mal.generateAuthURL(CLIENT_ID, challenge)
+  console.log('CALLBACK URL', authURL)
+
+  // const response = await authorize(
+  //   CLIENT_ID,
+  //   CLIENT_SECRET,
+  //   challenge,
+  //   inputCcode
+  // )
+  // console.log('AUTH ACCESS', response)
+
+  // await testAnime()
+  await testManga()
+
+
+
 }
 
 test()

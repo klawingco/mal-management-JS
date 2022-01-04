@@ -1,6 +1,7 @@
 import {
   Fields,
   AnimeFields,
+  MangaFields,
   Anime,
   DetailOptions,
   AnimeListOptions,
@@ -8,6 +9,7 @@ import {
   AnimeDetailOptions,
   AnimeSeasonalListOptions,
   HTTP_METHOD,
+  MangaDetailOptions,
 } from '../types'
 
 export const queryfyObj = (targetObj: { [key: string]: string }) => {
@@ -18,15 +20,18 @@ export const queryfyObj = (targetObj: { [key: string]: string }) => {
   return params.toString()
 }
 
-export const manageFields = (fields?: Fields) => {
-  const manageFields =
+export const manageFields = (
+  fields?: Fields,
+  fieldSource: typeof MangaFields | typeof AnimeFields = AnimeFields
+) => {
+  const _fields =
     fields?.map((field) => {
       if (typeof field === 'string') {
         return field
       }
-      return AnimeFields[field]
+      return fieldSource[field]
     }) || []
-  return manageFields.join(',')
+  return _fields.join(',')
 }
 
 
@@ -37,13 +42,15 @@ export const shapeAnimeQuery = (
     | AnimeRankingListOptions
     | AnimeDetailOptions
     | AnimeSeasonalListOptions
+    | MangaDetailOptions,
+  fieldSource?: typeof MangaFields | typeof AnimeFields
 ) => {
   return {
     Method: HTTP_METHOD.GET,
     Url: URL,
     Query: {
       ...opts,
-      fields: manageFields(opts?.fields),
+      fields: manageFields(opts?.fields, fieldSource),
     },
   }
 }
