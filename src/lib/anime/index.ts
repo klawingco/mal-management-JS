@@ -11,8 +11,9 @@ import {
   AnimeListOptions,
   AnimeRankingListOptions,
   AnimeSeasonalListOptions,
+  AnimeFields,
 } from '../../types'
-import { shapeAnimeList, shapeAnimeQuery } from './shared'
+import { shapeDataList, shapeQuery } from '../../util'
 
 const initAnime = (apiRequest: ApiRequest) => {
   return {
@@ -23,9 +24,10 @@ const initAnime = (apiRequest: ApiRequest) => {
       animeDetailOpts: AnimeDetailOptions
     ): Promise<AnimeDetail> {
       const { data = null } = await apiRequest(
-        shapeAnimeQuery(
+        shapeQuery(
           `${MAL_ANIME_URL}/${animeDetailOpts.id}`,
-          animeDetailOpts
+          animeDetailOpts,
+          AnimeFields
         )
       ).catch((err) => {
         throw err
@@ -37,11 +39,11 @@ const initAnime = (apiRequest: ApiRequest) => {
     */
     async getAnime(animeOpts: AnimeListOptions): Promise<Anime[]> {
       const { data = null } = await apiRequest(
-        shapeAnimeQuery(MAL_ANIME_URL, animeOpts)
+        shapeQuery(MAL_ANIME_URL, animeOpts, AnimeFields)
       ).catch((err) => {
         throw err
       })
-      return shapeAnimeList(data.data, this.getAnimeDetail)
+      return shapeDataList<Anime>(data.data, this.getAnimeDetail)
     },
     /*
         Get Anime Ranking List
@@ -50,11 +52,11 @@ const initAnime = (apiRequest: ApiRequest) => {
       animeRankOpts: AnimeRankingListOptions
     ): Promise<Anime[]> {
       const { data = null } = await apiRequest(
-        shapeAnimeQuery(MAL_ANIME_RANKING, animeRankOpts)
+        shapeQuery(MAL_ANIME_RANKING, animeRankOpts, AnimeFields)
       ).catch((err) => {
         throw err
       })
-      return shapeAnimeList(data.data, this.getAnimeDetail)
+      return shapeDataList<Anime>(data.data, this.getAnimeDetail)
     },
     /*
         Get Anime Seasonal List
@@ -63,14 +65,15 @@ const initAnime = (apiRequest: ApiRequest) => {
       animeSeasonalOpts: AnimeSeasonalListOptions
     ): Promise<Anime[]> {
       const { data = null } = await apiRequest(
-        shapeAnimeQuery(
+        shapeQuery(
           `${MAL_ANIME_SEASONAL}/${animeSeasonalOpts.year}/${animeSeasonalOpts.season}`,
-          animeSeasonalOpts
+          animeSeasonalOpts,
+          AnimeFields
         )
       ).catch((err) => {
         throw err
       })
-      return shapeAnimeList(data.data, this.getAnimeDetail)
+      return shapeDataList<Anime>(data.data, this.getAnimeDetail)
     },
   }
 }

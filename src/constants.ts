@@ -11,3 +11,6 @@ export const MAL_ACCESSTOKEN_URL = `${OAUTH_BASE_MAL_URL}/v1/oauth2/token`
 export const MAL_ANIME_URL = `${MAL_API_URL}/anime`
 export const MAL_ANIME_RANKING = `${MAL_ANIME_URL}/ranking`
 export const MAL_ANIME_SEASONAL = `${MAL_ANIME_URL}/season`
+
+export const MAL_MANGA_URL = `${MAL_API_URL}/manga`
+export const MAL_MANGA_RANKING = `${MAL_MANGA_URL}/ranking`

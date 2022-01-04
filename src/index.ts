@@ -2,7 +2,7 @@ import Auth from './lib/authentication'
 import { IMAL, IMALClient, APIFetcher } from './types'
 import { apiFetcher } from './lib/api-adapter'
 import initAnime from './lib/anime'
-
+import initManga from './lib/manga'
 const mal = {
   ...Auth,
   createClient: (clientOpts: IMALClient) => {
@@ -10,6 +10,7 @@ const mal = {
     const apiRequest = (apiOpts: APIFetcher) => apiFetcher(apiOpts, clientOpts)
     return {
       ...initAnime(apiRequest),
+      ...initManga(apiRequest),
     }
   },
 } as IMAL
