@@ -1,4 +1,12 @@
-import { AnimeDetail, AnimeFields, AnimeRankingType, AnimeSeason, AnimeSortType } from '.'
+import {
+  GenericFields,
+  AnimeSpecificFields,
+  MangaSpecificFields,
+  AnimeRankingType,
+  AnimeSeason,
+  AnimeSortType,
+  AnimeDetail,
+} from '.'
 import { IAuthorization } from './authorization'
 import { Anime } from './mal-api-responses'
 
@@ -17,11 +25,9 @@ export interface IMAL extends IAuthorization {
 }
 
 export interface IMALClient {
-  clientId: string
+  clientId?: string
   accessToken?: string
 }
-
-
 
 /* MAL api counterpart types */
 interface Pagination {
@@ -29,14 +35,16 @@ interface Pagination {
   offset?: number
 }
 
+export type Fields = GenericFields[] | AnimeSpecificFields[] | MangaSpecificFields[]
+
 export interface AnimeListOptions extends Pagination {
   q: string
-  fields?: AnimeFields[]
+  fields?: Fields
 }
 
 export interface DetailOptions {
   id?: number
-  fields?: AnimeFields[]
+  fields?: Fields
 }
 
 export interface AnimeDetailOptions extends DetailOptions {
@@ -45,13 +53,13 @@ export interface AnimeDetailOptions extends DetailOptions {
 
 export interface AnimeRankingListOptions extends Pagination {
   ranking_type: AnimeRankingType
-  fields?: AnimeFields[]
+  fields?: Fields
 }
 export interface AnimeSeasonalListOptions extends Pagination {
   year: number
   season: AnimeSeason
   sort: AnimeSortType
-  fields?: AnimeFields[]
+  fields?: Fields
 }
 
 

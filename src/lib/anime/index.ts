@@ -12,7 +12,7 @@ import {
   AnimeRankingListOptions,
   AnimeSeasonalListOptions,
 } from '../../types'
-import { shapeAnimeList, shapeAnimeQuery } from './shared'
+import { shapeAnimeList, shapeAnimeQuery } from '../../util'
 
 const initAnime = (apiRequest: ApiRequest) => {
   return {

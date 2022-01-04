@@ -21,14 +21,13 @@ const test = async () => {
   //   inputCcode
   // )
   // console.log('AUTH ACCESS', response)
-
   const client = mal.createClient({
     clientId: CLIENT_ID,
     accessToken: ACCESS_TOKEN,
   })
 
   const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen', fields: [AnimeFields.start_date] })
+    .getAnime({ q: 'Jujutsu Kaisen', fields: [] })
     .catch((err) => console.log(err))
 
   console.log('RESULT', animes && animes)
@@ -70,13 +69,4 @@ const test = async () => {
   console.log('Seasonal', animeSeasonal)    
 }
 
-// const testObj = {
-//   name: 'KL',
-//   funcTest: () => console.log('hey'),
-// }
-
-// console.log(testObj)
-// console.log(JSON.stringify(testObj))
-
-// console.log('HEYYY', mal)
 test()

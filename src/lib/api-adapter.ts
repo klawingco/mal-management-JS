@@ -4,7 +4,7 @@ import { APIFetcher, IMALClient } from 'src/types'
 const apiFetcher = async (opts: APIFetcher, clientOpts: IMALClient) => {
   const isPublicOnly = !Boolean(clientOpts.accessToken)
   const headers: { [key: string]: string } = {}
-  if (isPublicOnly) {
+  if (isPublicOnly && clientOpts.clientId) {
     headers['X-MAL-CLIENT-ID'] = clientOpts.clientId
   } else {
     headers['Authorization'] = `Bearer ${clientOpts.accessToken}`

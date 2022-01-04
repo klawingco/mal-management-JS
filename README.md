@@ -130,9 +130,19 @@ type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 
 ### About `fields` field
 
-Fields are way to control what `fields` are going to be responsed by MAL API. 
+> Fields are way to control what `fields` are going to be responsed by MAL API. 
 
 At default `id, title, main_picture` will always be present regardless if you put it at `fields` or not.
+
+
+Another thing is some of the `field options` are only available to `details` endpoint
+examples of such are
+- picture
+- background
+- related_anime
+- related_manga
+- recommendations
+- statistics
 
 
 
