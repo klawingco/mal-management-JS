@@ -1,7 +1,7 @@
-// This is not a formal tests
+// This is not a formal tests atmo
 import dotenv from 'dotenv'
 import mal from '../src/'
-import { AnimeFields, AnimeRankingType, MangaFields } from '../src/types'
+import { AnimeFields, MangaFields } from '../src/types'
 dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID || ''
@@ -63,15 +63,40 @@ const testManga = async () =>{
     clientId: CLIENT_ID,
     accessToken: ACCESS_TOKEN,
   })
+
+  const manga = await client
+    .getManga({ q: 'Jujutsu Kaisen', fields: [] })
+    .catch((err) => console.log(err))
+
+  console.log('RESULT', manga && manga)
+
+  const mangaDetailInner = await client
+    .getManga({ q: 'Jujutsu Kaisen', fields: [] })
+
+    console.log('HEYY', await mangaDetailInner[0].getDetail())
   
   console.log('Individual manga detail')
-  const animeDetail = await client
+  const mangaDetail = await client
     .getMangaDetail({
       id: 2,
+      fields: [
+        MangaFields.mean,
+        MangaFields.num_chapters,
+        MangaFields.media_type,
+        MangaFields['authors{first_name,last_name}'],
+      ],
+    })
+    .catch((err) => console.log(err))
+  console.log('Berserk', mangaDetail)  
+
+
+  const mangaRanking = await client
+    .getMangaRanking({
+      ranking_type: 'manga',
       fields: [MangaFields['authors{first_name,last_name}']],
     })
     .catch((err) => console.log(err))
-  console.log('Berserk', animeDetail)  
+  console.log('Manga ranking', mangaRanking)
   
   
 }

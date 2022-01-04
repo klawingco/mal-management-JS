@@ -8,6 +8,7 @@ These is heavily inspired from contentful-management-js, and actually created be
 
 Current Features available
 - Public Anime
+- Public Manga
 
 # Usage
 
@@ -16,6 +17,9 @@ Current Features available
 3. [Anime Detail](#getting-anime-detail)
 4. [Anime Ranking List](#getting-anime-ranking-list)
 5. [Seasonal Anime List ](#getting-seasonal-anime-list)
+6. [Manga List](#getting-manga-list)
+7. [Manga Detail](#getting-manga-detail)
+8. [Manga Ranking List](#getting-manga-ranking-list)
 
 
 ## Instantiating the Client
@@ -44,15 +48,15 @@ If you need to use interactable api
 
 Using async await
 
-```javascript
-  const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })
+```typescript
+  const animes:Anime[] = await client
+    .getAnime({ q: 'Jujutsu Kaisen', fields:[...] })
 ```
 
 Using Promise
 
 ```javascript
-  const animes = client
+  client
     .getAnime({ q: 'Jujutsu Kaisen' }).then(animes => console.log(animes))
 ```
 Both of approach mentioned can be chained with `.catch` for error busting and such.
@@ -65,13 +69,15 @@ You could chain it like this
 
 ```javascript
   const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })[0].getDetail()
+    .getAnime({ q: 'Jujutsu Kaisen' })
+  const anime = await animes[0].getDetail({fields: [...]})    
 ```
 You could also **configure** the fields you want to show using `fields` options
 
 ```javascript
   const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })[0].getDetail({fields: [...]})
+    .getAnime({ q: 'Jujutsu Kaisen' })
+  const anime = await animes[0].getDetail({fields: [...]})
 ```
 
 **Alternatively** If you have the `id` of the anime, you could directly get the anime details using client
@@ -81,9 +87,9 @@ You could also **configure** the fields you want to show using `fields` options
 const animeDetail = await client
 .getAnimeDetail({
     id: 30276,
-    // For typescript
+    // Using TS Enums
     fields: [AnimeFields.alternative_titles, AnimeFields.start_date], 
-    // For commonjs
+    // Or using string
     // fields:  ['alternative_titles', 'start_date']
 })
 ```
@@ -96,7 +102,6 @@ const animeDetail = await client
       ranking_type: 'airing', 
       fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
     })
-  console.log('Airing', animeRanking) 
 ```
 **Pro-tip:** If you are on typescript 
 There's a exposed Typescript `Type` called `AnimeRankingType`
@@ -124,7 +129,73 @@ type AnimeSeason = 'winter' | 'spring' | 'summer' | 'fall'
 type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 ```
 
+## Getting Manga List
 
+Using async await
+
+```typescript
+  const mangas: Manga[] = await client
+    .getManga({ q: 'Jujutsu Kaisen' })
+```
+
+Using Promise
+
+```javascript
+  client.getManga({ q: 'Jujutsu Kaisen' }).then(mangas => console.log(mangas))
+```
+Both of approach mentioned can be chained with `.catch` for error busting and such.
+Specifiying `Fields` are also available.
+
+## Getting Manga Detail
+
+For example you just want to get the detail of the first result from `getManga()`.
+You could chain it like this
+
+```javascript
+  const mangas = await client
+    .getManga({ q: 'Jujutsu Kaisen' })
+  const manga = mangas[0].getDetail()
+```
+You could also **configure** the fields you want to show using `fields` options
+
+```javascript
+  const mangas = await client
+    .getManga({ q: 'Jujutsu Kaisen' })
+  const manga =  mangas[0].getDetail({fields: [...]})
+```
+
+**Alternatively** If you have the `id` of the anime, you could directly get the anime details using client
+
+
+```javascript
+const mangaDetail = await client
+.getMangaDetail({
+    id: 30276,
+    // Using TS Enums
+    fields: [MangaFields.mean,
+        MangaFields.num_chapters,
+        MangaFields.media_type], 
+    // Or using string
+    // fields:  ['alternative_titles', 'start_date']
+})
+
+```
+
+
+## Getting Manga Ranking List
+
+```javascript
+  const mangaRanking = await client
+    .getMangaRanking({
+      ranking_type: 'all', 
+      fields: [...],
+    })
+```
+**Pro-tip:** If you are on typescript 
+There's a exposed Typescript `Type` called `MangaRankingType`
+```typescript
+export type MangaRankingType = 'all' | 'manga' | 'novels' | 'oneshots' |'doujin' | 'manhwa' | 'manhua' | 'bypopularity'| 'favorite'
+```
 
 ## Gotchas
 

@@ -3,12 +3,12 @@ import {
   AnimeSpecificFields,
   MangaSpecificFields,
   AnimeRankingType,
+  MangaRankingType,
   AnimeSeason,
   AnimeSortType,
-  AnimeDetail,
-} from '.'
+} from './mal-enum'
+import { Anime, AnimeDetail, Manga, MangaDetail } from './mal-api-responses'
 import { IAuthorization } from './authorization'
-import { Anime } from './mal-api-responses'
 
 export interface IMAL extends IAuthorization {
   generatePCKE: () => Promise<string>
@@ -21,7 +21,9 @@ export interface IMAL extends IAuthorization {
     getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
     getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
     getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
-    getMangaDetail(mangaDetailOpts: MangaDetailOptions): Promise<any>
+    getManga(mangaDetailOpts: MangaListOptions): Promise<Manga[]>
+    getMangaDetail(mangaDetailOpts: MangaDetailOptions): Promise<MangaDetail>
+    getMangaRanking: (opts: MangaRankingListOptions) => Promise<Manga[]>
   }
 }
 
@@ -36,16 +38,16 @@ interface Pagination {
   offset?: number
 }
 
-export type Fields = GenericFields[] | AnimeSpecificFields[] | MangaSpecificFields[]
-
-export interface AnimeListOptions extends Pagination {
-  q: string
-  fields?: Fields
-}
+export type Fields = GenericFields | AnimeSpecificFields | MangaSpecificFields
 
 export interface DetailOptions {
   id?: number
-  fields?: Fields
+  fields?: Fields[]
+}
+
+export interface AnimeListOptions extends Pagination {
+  q: string
+  fields?: Fields[]
 }
 
 export interface AnimeDetailOptions extends DetailOptions {
@@ -54,17 +56,37 @@ export interface AnimeDetailOptions extends DetailOptions {
 
 export interface AnimeRankingListOptions extends Pagination {
   ranking_type: AnimeRankingType
-  fields?: Fields
+  fields?: Fields[]
 }
+
 export interface AnimeSeasonalListOptions extends Pagination {
   year: number
   season: AnimeSeason
   sort: AnimeSortType
-  fields?: Fields
+  fields?: Fields[]
 }
-
 
 export interface MangaDetailOptions extends DetailOptions {
   id: number
 }
+
+export interface MangaListOptions extends Pagination {
+  q: string
+  fields?: Fields[]
+}
+
+export interface MangaRankingListOptions extends Pagination {
+  ranking_type: MangaRankingType
+  fields?: Fields[]
+}
+
+export type QueryOpts =
+  | AnimeListOptions
+  | AnimeRankingListOptions
+  | AnimeDetailOptions
+  | AnimeSeasonalListOptions
+  | MangaDetailOptions
+  | MangaListOptions
+  | MangaRankingListOptions
+
 

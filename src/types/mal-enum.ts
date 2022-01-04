@@ -19,28 +19,26 @@ export enum GenericFields {
   related_manga,
   recommendations,
   statistics,
+  my_list_status,
 }
 
 export enum AnimeSpecificFields {
-  my_list_status = 21,
-  num_episodes,
+  num_episodes = 22,
   start_season,
   broadcast,
   source,
   average_episode_duration,
   rating,
   studios,
-  statistics,
 }
 
 export enum MangaSpecificFields {
-  num_volumes = 21,
+  num_volumes = 22,
   num_chapters,
   'authors{first_name,last_name}',
   'serialization{name}',
 }
 export const AnimeFields = { ...GenericFields, ...AnimeSpecificFields }
-
 export const MangaFields = { ...GenericFields, ...MangaSpecificFields }
 
 /*
@@ -74,7 +72,10 @@ export type AnimeSeason = 'winter' | 'spring' | 'summer' | 'fall'
 
 export type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 
-export type AnimeStatus = 'finished_airing' | 'currently_airing' | 'not_yet_aired'
+export type AnimeStatus =
+  | 'finished_airing'
+  | 'currently_airing'
+  | 'not_yet_aired'
 
 export type AnimeSource =
   | 'other'
@@ -92,4 +93,27 @@ export type AnimeSource =
   | 'picture_book'
   | 'radio'
   | 'music'
+
+
+export type MangaMediaType =
+  | 'unknown'
+  | 'manga'
+  | 'novel'
+  | 'one_shot'
+  | 'doujinshi'
+  | 'manhwa'
+  | 'manhua'
+  | 'oel' 
+
+export type MangaRankingType =
+  | 'all'
+  | 'manga'
+  | 'novels'
+  | 'oneshots'
+  | 'doujin'
+  | 'manhwa'
+  | 'manhua'
+  | 'bypopularity'
+  | 'favorite'
+
 

@@ -3,13 +3,10 @@ import {
   AnimeFields,
   MangaFields,
   Anime,
+  Manga,
   DetailOptions,
-  AnimeListOptions,
-  AnimeRankingListOptions,
-  AnimeDetailOptions,
-  AnimeSeasonalListOptions,
   HTTP_METHOD,
-  MangaDetailOptions,
+  QueryOpts,
 } from '../types'
 
 export const queryfyObj = (targetObj: { [key: string]: string }) => {
@@ -20,8 +17,8 @@ export const queryfyObj = (targetObj: { [key: string]: string }) => {
   return params.toString()
 }
 
-export const manageFields = (
-  fields?: Fields,
+const manageFields = (
+  fields?: Fields[],
   fieldSource: typeof MangaFields | typeof AnimeFields = AnimeFields
 ) => {
   const _fields =
@@ -34,15 +31,9 @@ export const manageFields = (
   return _fields.join(',')
 }
 
-
-export const shapeAnimeQuery = (
+export const shapeQuery = (
   URL: string,
-  opts:
-    | AnimeListOptions
-    | AnimeRankingListOptions
-    | AnimeDetailOptions
-    | AnimeSeasonalListOptions
-    | MangaDetailOptions,
+  opts: QueryOpts,
   fieldSource?: typeof MangaFields | typeof AnimeFields
 ) => {
   return {
@@ -55,17 +46,17 @@ export const shapeAnimeQuery = (
   }
 }
 
-export const shapeAnimeList = (dataList: any[], injectedFunc: any) => {
-  // Shape the data and inject helper functions
-  const animeList = dataList?.map(
-    ({ node }: { node: Anime }) =>
-      ({
-        ...node,
-        getDetail: (opts: DetailOptions) =>
-          injectedFunc({ ...opts, id: node.id }),
-      } as Anime)
-  )
-  return animeList
+export function shapeDataList<T extends object>(dataList: any[], injectedFunc:any) {
+    const animeList = dataList?.map(
+      ({ node }: { node: Anime | Manga }) =>
+        ({
+          ...node,
+          getDetail: (opts: DetailOptions) =>
+            injectedFunc({ ...opts, id: node.id }),
+        } as T)
+    )
+    return animeList as T[]
+
 }
 
 
