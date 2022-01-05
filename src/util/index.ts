@@ -46,14 +46,18 @@ export const shapeQuery = (
   }
 }
 
-export function shapeDataList<T extends object>(dataList: any[], injectedFunc:any) {
+export function shapeDataList<T extends object>(dataList: any[], injectedFunc:any, key: string = 'node', key_id = 'id' ) {
     const animeList = dataList?.map(
-      ({ node }: { node: Anime | Manga }) =>
-        ({
-          ...node,
-          getDetail: (opts: DetailOptions) =>
-            injectedFunc({ ...opts, id: node.id }),
-        } as T)
+      (data) =>
+       {
+        const keyObj = key ? data[key] as any: data;
+        console.log('aaa', data)
+        return {
+          ...keyObj,
+          getDetail: (opts: any) =>
+            injectedFunc({ ...opts, [key_id]: keyObj[key_id] }),
+        } as T
+       }
     )
     return animeList as T[]
 

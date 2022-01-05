@@ -1,8 +1,10 @@
-import Auth from './lib/authentication'
+
 import { IMAL, IMALClient, APIFetcher } from './types'
 import { apiFetcher } from './lib/api-adapter'
+import Auth from './lib/authentication'
 import initAnime from './lib/anime'
 import initManga from './lib/manga'
+import initForum from './lib/forum'
 const mal = {
   ...Auth,
   createClient: (clientOpts: IMALClient) => {
@@ -11,6 +13,7 @@ const mal = {
     return {
       ...initAnime(apiRequest),
       ...initManga(apiRequest),
+      ...initForum(apiRequest),
     }
   },
 } as IMAL

@@ -117,3 +117,6 @@ export type MangaRankingType =
   | 'favorite'
 
 
+export type ForumSortType = | 'recent'
+
+
