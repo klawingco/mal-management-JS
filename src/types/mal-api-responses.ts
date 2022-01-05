@@ -6,7 +6,7 @@ import {
   AnimeSource,
   MangaMediaType,
 } from './mal-enum'
-import { DetailOptions } from './mal-api'
+import { DetailOptions, Pagination } from './mal-api'
 
 // Shared interfaces
 interface GenericIdToName {
@@ -94,5 +94,64 @@ export interface Manga extends MangaDetail {
   getDetail: (opts?: DetailOptions) => Promise<MangaDetail>
 }
 
+export interface ForumBoard {
+  id: number
+  title: string
+  description: string
+  // Only Main boards are shown, but will be added here for future usage
+  subboards?: any[]
+}
+
+export interface ForumBoardCategory{
+  title: string
+  boards: ForumBoard[]
+}
+
+export interface ForumBoardTopic {
+  id: number
+  title: string
+  created_at: Date
+  number_of_post: number
+  last_post_created_at: number
+  is_locked: boolean
+  created_by: GenericIdToName
+  last_post_created_by: GenericIdToName
+
+  // Func
+  getDetail: (opts?: Pagination) => Promise<ForumTopicDetail>
+}
+
+export interface ForumPost {
+  id: number
+  number: number
+  created_at: Date
+  created_by: {
+    id: number
+    name: string
+    // Yeah I know, typo right? it is what MAL returns
+    forum_avator: string
+  }
+  body: string 
+  signature: string
+}
+
+export interface PollOptions {
+  id: number
+  text: string
+  votes: number
+}
+
+export interface ForumPoll {
+  id: number
+  question: string
+  closed: boolean
+  options: PollOptions[]
+}
+
+export interface ForumTopicDetail {
+  title: string
+  posts: ForumPost[]
+  poll: ForumPoll
+}
 
 

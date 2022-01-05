@@ -22,7 +22,7 @@ const testAnime = async () =>{
   if (animes) {
     const firstResult = animes[0]
     const animeDetail = await firstResult
-      ?.getDetail({ fields: [AnimeFields.alternative_titles] })
+      .getDetail({ fields: [AnimeFields.alternative_titles] })
       .catch((err) => console.log(err))
     console.log('ANIME DETAIL', animeDetail)
   }
@@ -60,7 +60,6 @@ const testAnime = async () =>{
 const testManga = async () =>{
 
   const client = mal.createClient({
-    clientId: CLIENT_ID,
     accessToken: ACCESS_TOKEN,
   })
 
@@ -100,6 +99,30 @@ const testManga = async () =>{
   
   
 }
+
+const testForum = async () =>{
+  const client = mal.createClient({
+    accessToken: ACCESS_TOKEN,
+  })
+  
+  const forumBoards = await client.getForumBoard();
+  console.log("Main Forum Boards", forumBoards)
+
+  const forumTopics = await client.getForumTopics({
+    q: "love"
+  })
+  console.log('Main Forum Topics', forumTopics)
+
+  const oregairu = await forumTopics[0].getDetail()
+  console.log('Oregairu Topic Detail ', oregairu)
+  const forumDetail = await client.getForumTopicDetail({
+    id: 614681, //topic id
+    limit: 10,
+  })
+  console.log('OreGairu ', forumDetail)  
+
+}
+
 const test = async () => {
   const challenge = await mal.generatePCKE()
   console.log('CHALLENGE KEY', challenge)
@@ -116,8 +139,9 @@ const test = async () => {
   // console.log('AUTH ACCESS', response)
 
   // await testAnime()
-  await testManga()
+  // await testManga()
 
+  await testForum()
 
 
 }

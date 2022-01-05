@@ -14,3 +14,10 @@ export const MAL_ANIME_SEASONAL = `${MAL_ANIME_URL}/season`
 
 export const MAL_MANGA_URL = `${MAL_API_URL}/manga`
 export const MAL_MANGA_RANKING = `${MAL_MANGA_URL}/ranking`
+
+export const MAL_FORUM_URL = `${MAL_API_URL}/forum`
+export const MAL_FORUM_BOARDS_URL = `${MAL_FORUM_URL}/boards`
+export const MAL_FORUM_TOPICS_URL = `${MAL_FORUM_URL}/topics`
+export const MAL_FORUM_TOPIC_URL = `${MAL_FORUM_URL}/topic`
+
+
