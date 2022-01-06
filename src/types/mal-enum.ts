@@ -41,6 +41,12 @@ export enum MangaSpecificFields {
 export const AnimeFields = { ...GenericFields, ...AnimeSpecificFields }
 export const MangaFields = { ...GenericFields, ...MangaSpecificFields }
 
+export enum UserFields {
+  anime_statistics,
+  time_zone,
+  is_supporter
+}
+
 /*
 white	This work is safe for work
 gray	This work may be not safe for work

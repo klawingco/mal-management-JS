@@ -21,3 +21,6 @@ export const MAL_FORUM_TOPICS_URL = `${MAL_FORUM_URL}/topics`
 export const MAL_FORUM_TOPIC_URL = `${MAL_FORUM_URL}/topic`
 
 
+export const MAL_USER_URL = `${MAL_FORUM_URL}/users`
+
+

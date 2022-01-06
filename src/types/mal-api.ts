@@ -62,6 +62,7 @@ export interface DetailOptions {
 export interface AnimeListOptions extends Pagination {
   q: string
   fields?: Fields[]
+  nsfw?: boolean
 }
 
 export interface AnimeDetailOptions extends DetailOptions {
@@ -71,6 +72,7 @@ export interface AnimeDetailOptions extends DetailOptions {
 export interface AnimeRankingListOptions extends Pagination {
   ranking_type: AnimeRankingType
   fields?: Fields[]
+  nsfw?: boolean
 }
 
 export interface AnimeSeasonalListOptions extends Pagination {
@@ -78,6 +80,7 @@ export interface AnimeSeasonalListOptions extends Pagination {
   season: AnimeSeason
   sort: AnimeSortType
   fields?: Fields[]
+  nsfw?: boolean
 }
 
 export interface MangaDetailOptions extends DetailOptions {
@@ -86,10 +89,12 @@ export interface MangaDetailOptions extends DetailOptions {
 export interface MangaListOptions extends Pagination {
   q: string
   fields?: Fields[]
+  nsfw?: boolean
 }
 export interface MangaRankingListOptions extends Pagination {
   ranking_type: MangaRankingType
   fields?: Fields[]
+  nsfw?: boolean
 }
 
 export interface ForumTopicOptions extends Pagination {
