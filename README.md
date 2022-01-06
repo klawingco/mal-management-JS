@@ -10,7 +10,7 @@ Current Features available
 - Public Anime
 - Public Manga
 - Public Forum
-- User Profile (Currently Authenticated) 
+- User Profile (Authenticated) 
 
 # Usage
 
@@ -47,17 +47,42 @@ const client = mal.createClient({
 })
 ```
 
+CommonJS
+```javascript
+const mal = require('mal-management-js')
+...
+const client = mal.createClient({
+  clientId: CLIENT_ID
+})
+```
+
+By default NSFW are automatically filtered, if you desire to get all of them.
+You could instantiate the `createClient` with `.allowNSFW()`. This setting will affect all of subsequent functions. Useful for setting general NSFW rule.
+
+```javascript
+const client = mal.createClient({
+  clientId: CLIENT_ID
+}).allowNSFW()
+```
+Alternatively, you could also give it to `CreateClientOptions` as a `nsfw` option
+```javascript
+const client = mal.createClient({
+  clientId: CLIENT_ID,
+  nsfw: true
+})
+```
+
 
 ## Getting Anime List
 
-Using async await
+Using ``async await``
 
 ```typescript
 const animes: Anime[] = await client
   .getAnime({ q: 'Jujutsu Kaisen', fields:[...] })
 ```
 
-Using Promise
+Using ```Promise```
 
 ```javascript
 client
@@ -74,7 +99,7 @@ You could chain it like this
 ```javascript
 const animes = await client
   .getAnime({ q: 'Jujutsu Kaisen' })
-const anime = await animes[0].getDetail({fields: [...]})    
+const anime = await animes[0].getDetail()    
 ```
 You could also **configure** the fields you want to show using `fields` options
 
@@ -165,7 +190,7 @@ You could also **configure** the fields you want to show using `fields` options
 ```javascript
 const mangas = await client
   .getManga({ q: 'Jujutsu Kaisen' })
-const manga =  mangas[0].getDetail({fields: [...]})
+const manga =  await mangas[0].getDetail({fields: [...]})
 ```
 
 **Alternatively** If you have the `id` of the anime, you could directly get the anime details using client
@@ -212,7 +237,7 @@ const forumBoards: ForumBoardCategory[] = await client.getForumBoard();
 
 <br/>
 
-## Getting Forum Topics (or Board Topics)
+## Getting Forum Topics
 
 This will query against all Board Topics
 ```typescript
@@ -230,10 +255,10 @@ const forumTopics = await client.getForumTopics({
 })
 ```
 <details>
-<summary>Full Configuration Options (ForumTopicOptions)</summary>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (ForumTopicOptions)</summary>
 <p>
 
-| Options  | Descriptions |
+| Options  | Description |
 | ------------- | ------------- |
 | board_id  | Id of the board topic you want to search against  |
 | subboard_id  | Id of the subboard topic  you want to search against  |
@@ -271,11 +296,11 @@ Or if you have the `topic id`
   console.log('OreGairu ', forumDetail)  
 ```
 <details>
-<summary>Full Configuration Options (ForumTopicDetailOptions)</summary>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (ForumTopicDetailOptions)</summary>
 
 <p>
 
-| Options  | Descriptions |
+| Options  | Description |
 | ------------- | ------------- |
 | id  | Id of the topic.  |
 | limit  | Pagination |
@@ -337,8 +362,9 @@ There are also default Fields for User Profile that will always be present irreg
 - location
 
 
-### Future Plan
-The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also ease the backend integration.
+### Future Plans
+
+The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also to ease the backend integration.
 
 For example, if in `FUTURE` MAL officially release an api for a Anime's characters.
 

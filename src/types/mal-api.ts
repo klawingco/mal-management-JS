@@ -21,32 +21,36 @@ import {
 } from './mal-api-responses'
 import { IAuthorization } from './authorization'
 
+interface CreateClient {
+  getAnime: (opts: AnimeListOptions) => Promise<Anime[]>
+  getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
+  getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
+  getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
+  getManga(opts: MangaListOptions): Promise<Manga[]>
+  getMangaDetail(opts: MangaDetailOptions): Promise<MangaDetail>
+  getMangaRanking: (opts: MangaRankingListOptions) => Promise<Manga[]>
+  getForumBoard: () => Promise<ForumBoardCategory[]>
+  getForumTopics: (opts: ForumTopicOptions) => Promise<ForumBoardTopic[]>
+  getForumTopicDetail: (
+    opts: ForumTopicDetailOptions
+  ) => Promise<ForumTopicDetail[]>
+  getUserProfile: (opts?: UserProfileOptions) => Promise<UserProfile[]>
+  allowNSFW: () => CreateClient
+}
+
 export interface IMAL extends IAuthorization {
   generatePCKE: () => Promise<string>
   generateAuthURL: (
     clientId: string,
     codeChallenge?: string | undefined
   ) => Promise<string>
-  createClient: (clientOpts: IMALClient) => {
-    getAnime: (opts: AnimeListOptions) => Promise<Anime[]>
-    getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
-    getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
-    getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
-    getManga(opts: MangaListOptions): Promise<Manga[]>
-    getMangaDetail(opts: MangaDetailOptions): Promise<MangaDetail>
-    getMangaRanking: (opts: MangaRankingListOptions) => Promise<Manga[]>
-    getForumBoard: () => Promise<ForumBoardCategory[]>
-    getForumTopics: (opts: ForumTopicOptions) => Promise<ForumBoardTopic[]>
-    getForumTopicDetail: (
-      opts: ForumTopicDetailOptions
-    ) => Promise<ForumTopicDetail[]>
-    getUserProfile: (opts?: UserProfileOptions) => Promise<UserProfile[]>
-  }
+  createClient: (clientOpts: IMALClient) => CreateClient
 }
 
 export interface IMALClient {
   clientId?: string
   accessToken?: string
+  nsfw?: boolean
 }
 
 /* MAL api counterpart types */
