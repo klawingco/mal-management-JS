@@ -11,12 +11,13 @@ const apiFetcher = async (opts: APIFetcher, clientOpts: IMALClient) => {
   }
   console.log('URL', opts.Url)
   console.log('QUERY', opts.Query)
+  
   return axios({
     method: opts.Method,
     url: opts.Url,
     data: opts?.data,
     headers,
-    params: opts.Query,
+    params: { ...opts.Query, nsfw: clientOpts.nsfw },
   })
 }
 

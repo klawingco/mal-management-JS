@@ -15,7 +15,7 @@ const testAnime = async () =>{
   })
 
   const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen', fields: [] })
+    .getAnime({ q: 'Saimin', fields: [] })
     .catch((err) => console.log(err))
 
   console.log('RESULT', animes && animes)
@@ -61,7 +61,7 @@ const testManga = async () =>{
 
   const client = mal.createClient({
     accessToken: ACCESS_TOKEN,
-  })
+  }).allowNSFW()
 
   const manga = await client
     .getManga({ q: 'Jujutsu Kaisen', fields: [] })
