@@ -1,10 +1,4 @@
 import {
-  Fields,
-  AnimeFields,
-  MangaFields,
-  Anime,
-  Manga,
-  DetailOptions,
   HTTP_METHOD,
   QueryOpts,
 } from '../types'
@@ -18,8 +12,9 @@ export const queryfyObj = (targetObj: { [key: string]: string }) => {
 }
 
 const manageFields = (
-  fields?: Fields[],
-  fieldSource: typeof MangaFields | typeof AnimeFields = AnimeFields
+  fieldSource: any,
+  fields?: any[],
+
 ) => {
   const _fields =
     fields?.map((field) => {
@@ -34,14 +29,14 @@ const manageFields = (
 export const shapeQuery = (
   URL: string,
   opts: QueryOpts,
-  fieldSource?: typeof MangaFields | typeof AnimeFields
+  fieldSource?: any
 ) => {
   return {
     Method: HTTP_METHOD.GET,
     Url: URL,
     Query: {
       ...opts,
-      fields: manageFields(opts?.fields, fieldSource),
+      fields: manageFields(fieldSource, opts?.fields),
     },
   }
 }
@@ -51,7 +46,6 @@ export function shapeDataList<T extends object>(dataList: any[], injectedFunc:an
       (data) =>
        {
         const keyObj = key ? data[key] as any: data;
-        console.log('aaa', data)
         return {
           ...keyObj,
           getDetail: (opts: any) =>
