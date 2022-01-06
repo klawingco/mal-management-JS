@@ -7,6 +7,7 @@ import {
   AnimeSeason,
   AnimeSortType,
   ForumSortType,
+  UserFields,
 } from './mal-enum'
 import {
   Anime,
@@ -16,6 +17,7 @@ import {
   ForumBoardCategory,
   ForumBoardTopic,
   ForumTopicDetail,
+  UserProfile,
 } from './mal-api-responses'
 import { IAuthorization } from './authorization'
 
@@ -38,6 +40,7 @@ export interface IMAL extends IAuthorization {
     getForumTopicDetail: (
       opts: ForumTopicDetailOptions
     ) => Promise<ForumTopicDetail[]>
+    getUserProfile: (opts?: UserProfileOptions) => Promise<UserProfile[]>
   }
 }
 
@@ -110,6 +113,10 @@ export interface ForumTopicDetailOptions extends Pagination {
   id: number 
 }
 
+export interface UserProfileOptions {
+  fields?: UserFields[] | string[]
+}
+
 
 export type QueryOpts =
   | AnimeListOptions
@@ -119,5 +126,6 @@ export type QueryOpts =
   | MangaDetailOptions
   | MangaListOptions
   | MangaRankingListOptions
+  | UserProfileOptions
 
 

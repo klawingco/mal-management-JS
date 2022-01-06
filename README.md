@@ -49,7 +49,7 @@ If you need to use interactable api
 Using async await
 
 ```typescript
-  const animes:Anime[] = await client
+  const animes: Anime[] = await client
     .getAnime({ q: 'Jujutsu Kaisen', fields:[...] })
 ```
 
@@ -215,6 +215,16 @@ examples of such are
 - recommendations
 - statistics
 
+**User Fields**
+
+There are also default Fields for User Profile that will always be present irregardless if you added it at `fields` options, namely.
+- id
+- name
+- picture
+- gender
+- birthday
+- joined_at
+- location
 
 
 ### Future Plan

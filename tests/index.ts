@@ -1,7 +1,7 @@
 // This is not a formal tests atmo
 import dotenv from 'dotenv'
 import mal from '../src/'
-import { AnimeFields, MangaFields } from '../src/types'
+import { AnimeFields, MangaFields, UserFields } from '../src/types'
 dotenv.config()
 
 const CLIENT_ID = process.env.CLIENT_ID || ''
@@ -123,6 +123,16 @@ const testForum = async () =>{
 
 }
 
+const testUser = async () =>{
+  const client = mal.createClient({
+    accessToken: ACCESS_TOKEN,
+  })
+  const userProfile = await client.getUserProfile({
+    fields: [UserFields.anime_statistics]
+  })
+  console.log('My Profile ', userProfile)  
+}
+
 const test = async () => {
   const challenge = await mal.generatePCKE()
   console.log('CHALLENGE KEY', challenge)
@@ -140,8 +150,8 @@ const test = async () => {
 
   // await testAnime()
   // await testManga()
-
-  await testForum()
+  // await testForum()
+  await testUser();
 
 
 }

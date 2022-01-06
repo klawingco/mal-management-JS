@@ -10,7 +10,7 @@ export interface APIFetcher {
   Url: string
   Method: HTTP_METHOD
   Query?: {
-    [key: string]: string | number | string[] | Fields
+    [key: string]: string | number | string[] | boolean | Fields
   }
   data?: any
 }

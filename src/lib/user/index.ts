@@ -1,19 +1,19 @@
 import { MAL_USER_URL } from '../../constants'
-import { HTTP_METHOD, ApiRequest } from '../../types'
+import { ApiRequest, UserProfileOptions, UserFields } from '../../types'
+import { shapeQuery } from '../../util'
 
 const initUser = (apiRequest: ApiRequest) => {
     return {
       /*
         Get User Detail
       */
-      async getMyProfile() {
-        const { data = null } = await apiRequest({
-          Url: `${MAL_USER_URL}/@me`,
-          Method: HTTP_METHOD.GET,
-        }).catch((err) => {
+      async getUserProfile(opts: UserProfileOptions = {}) {
+        const { data = null } = await apiRequest(
+          shapeQuery(`${MAL_USER_URL}/@me`, opts, UserFields)
+        ).catch((err) => {
           throw err
         })
-        return data.categories
+        return data
       },
     }
 
