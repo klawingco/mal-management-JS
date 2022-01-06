@@ -128,7 +128,7 @@ const testUser = async () =>{
     accessToken: ACCESS_TOKEN,
   })
   const userProfile = await client.getUserProfile({
-    fields: [UserFields.anime_statistics]
+    fields: [UserFields.anime_statistics, UserFields.is_supporter, UserFields.time_zone]
   })
   console.log('My Profile ', userProfile)  
 }

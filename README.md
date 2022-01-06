@@ -9,6 +9,8 @@ These is heavily inspired from contentful-management-js, and actually created be
 Current Features available
 - Public Anime
 - Public Manga
+- Public Forum
+- User Profile (Currently Authenticated) 
 
 # Usage
 
@@ -20,27 +22,29 @@ Current Features available
 6. [Manga List](#getting-manga-list)
 7. [Manga Detail](#getting-manga-detail)
 8. [Manga Ranking List](#getting-manga-ranking-list)
-
+9. [Forum Boards List](#getting-main-forum-boards)
+10. [Forum Topics List](#getting-forum-topics)
+11. [Forum Topic Detail](#getting-forum-topic-detail)
+12. [User Profile](#getting-user-profile)
 
 ## Instantiating the Client
 
 For accessing public data only
 ```javascript
-  import mal from 'mal-management-js'
-  ...
-  const client = mal.createClient({
-    clientId: CLIENT_ID
-  })
+import mal from 'mal-management-js'
+...
+const client = mal.createClient({
+  clientId: CLIENT_ID
+})
 ```
 
-If you need to use interactable api
+If you need to use authenticated api endpoints.
 ```javascript
-  import mal from 'mal-management-js'
-  ...
-  const client = mal.createClient({
-    clientId: CLIENT_ID,
-    accessToken: ACCESS_TOKEN,
-  })
+import mal from 'mal-management-js'
+...
+const client = mal.createClient({
+  accessToken: ACCESS_TOKEN,
+})
 ```
 
 
@@ -49,15 +53,15 @@ If you need to use interactable api
 Using async await
 
 ```typescript
-  const animes: Anime[] = await client
-    .getAnime({ q: 'Jujutsu Kaisen', fields:[...] })
+const animes: Anime[] = await client
+  .getAnime({ q: 'Jujutsu Kaisen', fields:[...] })
 ```
 
 Using Promise
 
 ```javascript
-  client
-    .getAnime({ q: 'Jujutsu Kaisen' }).then(animes => console.log(animes))
+client
+  .getAnime({ q: 'Jujutsu Kaisen' }).then(animes => console.log(animes))
 ```
 Both of approach mentioned can be chained with `.catch` for error busting and such.
 
@@ -68,16 +72,16 @@ For example you just want to get the detail of the first result from `getAnime()
 You could chain it like this
 
 ```javascript
-  const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })
-  const anime = await animes[0].getDetail({fields: [...]})    
+const animes = await client
+  .getAnime({ q: 'Jujutsu Kaisen' })
+const anime = await animes[0].getDetail({fields: [...]})    
 ```
 You could also **configure** the fields you want to show using `fields` options
 
 ```javascript
-  const animes = await client
-    .getAnime({ q: 'Jujutsu Kaisen' })
-  const anime = await animes[0].getDetail({fields: [...]})
+const animes = await client
+  .getAnime({ q: 'Jujutsu Kaisen' })
+const anime = await animes[0].getDetail({fields: [...]})
 ```
 
 **Alternatively** If you have the `id` of the anime, you could directly get the anime details using client
@@ -97,11 +101,11 @@ const animeDetail = await client
 ## Getting Anime Ranking List
 
 ```javascript
-  const animeRanking = await client
-    .getAnimeRanking({
-      ranking_type: 'airing', 
-      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
-    })
+const animeRanking = await client
+  .getAnimeRanking({
+    ranking_type: 'airing', 
+    fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+  })
 ```
 **Pro-tip:** If you are on typescript 
 There's a exposed Typescript `Type` called `AnimeRankingType`
@@ -113,13 +117,13 @@ type AnimeRankingType = 'all' | 'airing' |'upcoming' |'tv' |'ova' |'movie' | 'sp
 ## Getting Seasonal Anime List
 
 ```javascript
-  const animeSeasonal = await client
-    .getAnimeSeasonal({
-      year: 2020,
-      season: 'fall',
-      sort: 'anime_score',
-      fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
-    })
+const animeSeasonal = await client
+  .getAnimeSeasonal({
+    year: 2020,
+    season: 'fall',
+    sort: 'anime_score',
+    fields: [AnimeFields.alternative_titles, AnimeFields.start_date],
+  })
 ```
 **Pro-tip:** If you are on typescript 
 There's a exposed Typescript `Type` called `AnimeSeason` and `AnimeSortType`
@@ -134,14 +138,14 @@ type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 Using async await
 
 ```typescript
-  const mangas: Manga[] = await client
-    .getManga({ q: 'Jujutsu Kaisen' })
+const mangas: Manga[] = await client
+  .getManga({ q: 'Jujutsu Kaisen' })
 ```
 
 Using Promise
 
 ```javascript
-  client.getManga({ q: 'Jujutsu Kaisen' }).then(mangas => console.log(mangas))
+client.getManga({ q: 'Jujutsu Kaisen' }).then(mangas => console.log(mangas))
 ```
 Both of approach mentioned can be chained with `.catch` for error busting and such.
 Specifiying `Fields` are also available.
@@ -152,16 +156,16 @@ For example you just want to get the detail of the first result from `getManga()
 You could chain it like this
 
 ```javascript
-  const mangas = await client
-    .getManga({ q: 'Jujutsu Kaisen' })
-  const manga = mangas[0].getDetail()
+const mangas = await client
+  .getManga({ q: 'Jujutsu Kaisen' })
+const manga = mangas[0].getDetail()
 ```
 You could also **configure** the fields you want to show using `fields` options
 
 ```javascript
-  const mangas = await client
-    .getManga({ q: 'Jujutsu Kaisen' })
-  const manga =  mangas[0].getDetail({fields: [...]})
+const mangas = await client
+  .getManga({ q: 'Jujutsu Kaisen' })
+const manga =  mangas[0].getDetail({fields: [...]})
 ```
 
 **Alternatively** If you have the `id` of the anime, you could directly get the anime details using client
@@ -185,17 +189,123 @@ const mangaDetail = await client
 ## Getting Manga Ranking List
 
 ```javascript
-  const mangaRanking = await client
-    .getMangaRanking({
-      ranking_type: 'all', 
-      fields: [...],
-    })
+const mangaRanking = await client
+  .getMangaRanking({
+    ranking_type: 'all', 
+    fields: [...],
+  })
 ```
 **Pro-tip:** If you are on typescript 
 There's a exposed Typescript `Type` called `MangaRankingType`
 ```typescript
 export type MangaRankingType = 'all' | 'manga' | 'novels' | 'oneshots' |'doujin' | 'manhwa' | 'manhua' | 'bypopularity'| 'favorite'
 ```
+
+## Getting Main Forum Boards
+This will return all of Main Forum Boards Categories
+
+```typescript
+const forumBoards: ForumBoardCategory[] = await client.getForumBoard();
+```
+
+> Note that at the moment MAL only return `Main Boards`. Hence reason that `Subboards` is not yet available.
+
+<br/>
+
+## Getting Forum Topics (or Board Topics)
+
+This will query against all Board Topics
+```typescript
+const forumTopics = await client.getForumTopics({
+  q: "love"
+})
+```
+If you want to specify a board or a subboard
+
+```typescript
+const forumTopics = await client.getForumTopics({
+  board_id: 2,
+  subboard_id: 3,
+  q: "love"
+})
+```
+<details>
+<summary>Full Configuration Options (ForumTopicOptions)</summary>
+<p>
+
+| Options  | Descriptions |
+| ------------- | ------------- |
+| board_id  | Id of the board topic you want to search against  |
+| subboard_id  | Id of the subboard topic  you want to search against  |
+| sort  | MAL only has `recent` available at the moment  |
+| q  | Search String  |
+| topic_user_name  | Use to filter using topic_user_name  |
+| user_name  | Use to filter using user_name that participated |
+| limit  | |
+| offset  | |
+
+</p>
+</details>
+
+<br/>
+
+## Getting Forum Topic Detail
+This gives details about all of posts, poll and title related to the topic 
+
+Similar to Anime and Manga, you could also get a injected `getDetail()` to each of instances of Forum Topic
+
+```typescript
+const forumTopics = await client.getForumTopics({
+  q: "love"
+})
+const oregairu = await forumTopics[0].getDetail()
+```
+
+Or if you have the `topic id`
+
+```typescript
+  const forumDetail = await client.getForumTopicDetail({
+    id: 614681, //topic id
+    limit: 10,
+  })
+  console.log('OreGairu ', forumDetail)  
+```
+<details>
+<summary>Full Configuration Options (ForumTopicDetailOptions)</summary>
+
+<p>
+
+| Options  | Descriptions |
+| ------------- | ------------- |
+| id  | Id of the topic.  |
+| limit  | Pagination |
+| offset  | Pagination |
+
+</p>
+</details>
+<br/>
+
+## Getting User Profile 
+
+> **AUTHENTICATION NEEDED !**  Client must be instantiated with `accessToken` option.
+
+This will get the user's profile. 
+```typescript
+const userProfile = await client.getUserProfile()
+```
+Or if you want to specify additional user fields
+
+```typescript
+const userProfile = await client.getUserProfile({
+  // Using TS enums
+  fields: [UserFields.anime_statistics, UserFields.is_supporter, UserFields.time_zone]
+  // Works also using string
+  // fields: ['anime_statistics', 'is_supporter', 'time_zone']
+})
+```
+> Note: Only the current Authenticated user are allowed to get profile. No official endpoint yet are available for public profile.
+
+<br/>
 
 ## Gotchas
 
@@ -235,7 +345,7 @@ For example, if in `FUTURE` MAL officially release an api for a Anime's characte
 This wrapper could end with api of 
 
 ```javascript
-client.getAnimeDetail({id: 30276}).characters()
+client.getAnimeDetail({id: 30276}).getCharacters()
 ```
 
 
