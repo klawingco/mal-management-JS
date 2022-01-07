@@ -1,10 +1,15 @@
 # MAL Management JS
 
-> Note: This repo is still in work on progress and code quality is for `MVP`.
+<img src="https://img.shields.io/npm/l/mal-management-js" />
+<img src="https://img.shields.io/npm/dw/mal-management-js" />
+
+<br/>
+
+> Note: This repo is still in aggressive development.
 
 At first with the roll out of new MAL v2 api, I just want to play around th api itself however I find it inconvenient to do different call to each of items I needed off the api. 
 
-These is heavily inspired from contentful-management-js, and actually created because I want to manage my anime using a globally installed `CLI` . But in order to create a cli, A good wrapper is firstly needed hence this project is born.
+These is heavily inspired from `contentful-management.js`, and actually created because I want to manage my anime using a globally installed `CLI` . But in order to create a cli, a good wrapper that is easy to use, fluent, developer friendly and removes the pain staking part of api call creation is needed, hence the project is born. 
 
 Current Features available
 - Public Anime
@@ -26,6 +31,10 @@ Current Features available
 10. [Forum Topics List](#getting-forum-topics)
 11. [Forum Topic Detail](#getting-forum-topic-detail)
 12. [User Profile](#getting-user-profile)
+13. [Logging](#logging)
+14. [Field Cheatsheet](#field-cheetsheet)
+15. [Gotchas](#gotchas)
+16. [Future Plans](#future-plans)
 
 ## Instantiating the Client
 
@@ -47,7 +56,7 @@ const client = mal.createClient({
 })
 ```
 
-CommonJS
+**CommonJS**
 ```javascript
 const mal = require('mal-management-js')
 ...
@@ -55,6 +64,8 @@ const client = mal.createClient({
   clientId: CLIENT_ID
 })
 ```
+
+**NSFW**
 
 By default NSFW are automatically filtered, if you desire to get all of them.
 You could instantiate the `createClient` with `.allowNSFW()`. This setting will affect all of subsequent functions. Useful for setting general NSFW rule.
@@ -71,7 +82,14 @@ const client = mal.createClient({
   nsfw: true
 })
 ```
+### Client Extension functions
+| Function  | Description |
+| ------------- | ------------- |
+| .allowNSFW()  | Enables to allow to show nsfw entries   |
+| .setRequestLogger(request=> void)  | Add a custom request logger (See [logging](#logging))  |
+| .setResponseLogger(request=> void)  | Add a custom response logger  (See [logging](#logging))  |
 
+<br/>
 
 ## Getting Anime List
 
@@ -85,11 +103,27 @@ const animes: Anime[] = await client
 Using ```Promise```
 
 ```javascript
-client
-  .getAnime({ q: 'Jujutsu Kaisen' }).then(animes => console.log(animes))
+client.getAnime({ q: 'Jujutsu Kaisen' })
+  .then(animes => console.log(animes))
 ```
 Both of approach mentioned can be chained with `.catch` for error busting and such.
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (AnimeListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| q  | Search String |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet) |
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+
+<br />
 
 ## Getting Anime Detail
 
@@ -123,6 +157,20 @@ const animeDetail = await client
 })
 ```
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (AnimeDetailOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| id  | anime id |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+
+</p>
+</details>
+
+<br/>
+
 ## Getting Anime Ranking List
 
 ```javascript
@@ -137,7 +185,22 @@ There's a exposed Typescript `Type` called `AnimeRankingType`
 ```typescript
 type AnimeRankingType = 'all' | 'airing' |'upcoming' |'tv' |'ova' |'movie' | 'special' |'bypopularity' |'favorite'
 ```
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (AnimeRankingListOptions)</summary>
+<p>
 
+| Options  | Description |
+| ------------- | ------------- |
+| ranking_type  | Specifying the ranking criteria See [`AnimeRankingType`](https://github.com/klawingco/mal-management-JS/blob/main/src/types/mal-enum.ts#L66) |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+
+<br/>
 
 ## Getting Seasonal Anime List
 
@@ -158,6 +221,25 @@ type AnimeSeason = 'winter' | 'spring' | 'summer' | 'fall'
 type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 ```
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (AnimeSeasonalListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| year  | target year |
+| season  | Specify what airing season See `AnimeSeason` |
+| sort  | Specify what sort criteria. See `AnimeSortType` |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional) | Pagination |
+
+</p>
+</details>
+
+<br/>
+
 ## Getting Manga List
 
 Using async await
@@ -174,6 +256,23 @@ client.getManga({ q: 'Jujutsu Kaisen' }).then(mangas => console.log(mangas))
 ```
 Both of approach mentioned can be chained with `.catch` for error busting and such.
 Specifiying `Fields` are also available.
+
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| q  | Search String |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet) |
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+
+<br/>
 
 ## Getting Manga Detail
 
@@ -207,9 +306,21 @@ const mangaDetail = await client
     // Or using string
     // fields:  ['alternative_titles', 'start_date']
 })
-
 ```
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaDetailOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| id  | manga id |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+
+</p>
+</details>
+
+<br/>
 
 ## Getting Manga Ranking List
 
@@ -225,6 +336,21 @@ There's a exposed Typescript `Type` called `MangaRankingType`
 ```typescript
 export type MangaRankingType = 'all' | 'manga' | 'novels' | 'oneshots' |'doujin' | 'manhwa' | 'manhua' | 'bypopularity'| 'favorite'
 ```
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaRankingListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| ranking_type  | Specifying the ranking criteria See [`MangaRankingType`](https://github.com/klawingco/mal-management-JS/blob/main/src/types/mal-enum.ts#L114) |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+<br/>
 
 ## Getting Main Forum Boards
 This will return all of Main Forum Boards Categories
@@ -266,8 +392,8 @@ const forumTopics = await client.getForumTopics({
 | q  | Search String  |
 | topic_user_name  | Use to filter using topic_user_name  |
 | user_name  | Use to filter using user_name that participated |
-| limit  | |
-| offset  | |
+| limit  | Pagination |
+| offset  | Pagination |
 
 </p>
 </details>
@@ -332,6 +458,80 @@ const userProfile = await client.getUserProfile({
 
 <br/>
 
+## Logging
+
+mal-management-js offers a way to logged both of request and response using a `extension` function which is you can chain to client. This is useful for apps that is running on backend that needs robusts logging. You could implement a file logging by hooking into this.
+
+**Sample Request logging**
+```javascript
+const client = mal.createClient({
+  accessToken: ACCESS_TOKEN,
+}).setRequestLogger(request => {
+  console.log('REQUEST URL', request.url)
+  console.log('REQUEST QUERIES', request.params)
+})
+```
+
+
+
+<br/>
+
+## Field Cheatsheet
+
+### Common Fields (Applies to Both Anime and Manga)
+
+<table border="0">
+ <tr>
+    <td>
+
+  - alternative_titles
+  - start_date
+  - end_date
+  - synopsis
+  - mean
+  - rank
+  - popularity
+  - num_list_users
+  - num_scoring_users
+  - nsfw
+  - created_at  
+    </td>
+    <td>
+  - media_type
+  - status
+  - genres
+  - pictures
+  - background
+  - related_anime
+  - related_manga
+  - recommendations
+  - statistics
+  - my_list_status    
+    </td>
+ </tr>
+</table>
+ 
+
+
+### Anime Only Fields
+
+  - num_episodes
+  - start_season
+  - broadcast
+  - source
+  - average_episode_duration
+  - rating
+  - studios
+
+### Manga Only Cheatsheat
+
+  - num_volumes
+  - num_chapters
+  - 'authors{first_name,last_name}'
+  - 'serialization{name}'
+
+
+
 ## Gotchas
 
 ### About `fields` field
@@ -361,8 +561,7 @@ There are also default Fields for User Profile that will always be present irreg
 - joined_at
 - location
 
-
-### Future Plans
+## Future Plans
 
 The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also to ease the backend integration.
 
