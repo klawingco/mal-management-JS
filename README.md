@@ -17,6 +17,9 @@ Current Features available
 - Public Forum
 - User Profile (Authenticated) 
 
+In flight
+- Update User Manga and Anime Entries
+
 # Usage
 
 1. [Instantiating the Client](#instantiating-the-client)
@@ -32,7 +35,7 @@ Current Features available
 11. [Forum Topic Detail](#getting-forum-topic-detail)
 12. [User Profile](#getting-user-profile)
 13. [Logging](#logging)
-14. [Field Cheatsheet](#field-cheetsheet)
+14. [Field Cheatsheet](#field-cheatsheet)
 15. [Gotchas](#gotchas)
 16. [Future Plans](#future-plans)
 
@@ -67,8 +70,7 @@ const client = mal.createClient({
 
 **NSFW**
 
-By default NSFW are automatically filtered, if you desire to get all of them.
-You could instantiate the `createClient` with `.allowNSFW()`. This setting will affect all of subsequent functions. Useful for setting general NSFW rule.
+By default NSFW are automatically filtered, if you want to include nsfw entries, you could instantiate the `createClient` with `.allowNSFW()` extension. This setting will affect all of subsequent functions and is useful for setting general NSFW rule.
 
 ```javascript
 const client = mal.createClient({
@@ -85,7 +87,7 @@ const client = mal.createClient({
 ### Client Extension functions
 | Function  | Description |
 | ------------- | ------------- |
-| .allowNSFW()  | Enables to allow to show nsfw entries   |
+| .allowNSFW()  | Allows showing of nsfw entries ( ͡° ͜ʖ ͡°)  |
 | .setRequestLogger(request=> void)  | Add a custom request logger (See [logging](#logging))  |
 | .setResponseLogger(request=> void)  | Add a custom response logger  (See [logging](#logging))  |
 
@@ -115,7 +117,7 @@ Both of approach mentioned can be chained with `.catch` for error busting and su
 | Options  | Description |
 | ------------- | ------------- |
 | q  | Search String |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet) |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet) |
 | nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
 | limit (optional)  | Pagination |
 | offset (optional)  | Pagination |
@@ -164,7 +166,7 @@ const animeDetail = await client
 | Options  | Description |
 | ------------- | ------------- |
 | id  | anime id |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet)
 
 </p>
 </details>
@@ -192,7 +194,7 @@ type AnimeRankingType = 'all' | 'airing' |'upcoming' |'tv' |'ova' |'movie' | 'sp
 | Options  | Description |
 | ------------- | ------------- |
 | ranking_type  | Specifying the ranking criteria See [`AnimeRankingType`](https://github.com/klawingco/mal-management-JS/blob/main/src/types/mal-enum.ts#L66) |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet)
 | nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
 | limit (optional)  | Pagination |
 | offset (optional)  | Pagination |
@@ -230,7 +232,7 @@ type AnimeSortType = 'anime_score' | 'anime_num_list_users'
 | year  | target year |
 | season  | Specify what airing season See `AnimeSeason` |
 | sort  | Specify what sort criteria. See `AnimeSortType` |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet)
 | nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
 | limit (optional)  | Pagination |
 | offset (optional) | Pagination |
@@ -264,7 +266,7 @@ Specifiying `Fields` are also available.
 | Options  | Description |
 | ------------- | ------------- |
 | q  | Search String |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet) |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet) |
 | nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
 | limit (optional)  | Pagination |
 | offset (optional)  | Pagination |
@@ -315,7 +317,7 @@ const mangaDetail = await client
 | Options  | Description |
 | ------------- | ------------- |
 | id  | manga id |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet)
 
 </p>
 </details>
@@ -343,7 +345,7 @@ export type MangaRankingType = 'all' | 'manga' | 'novels' | 'oneshots' |'doujin'
 | Options  | Description |
 | ------------- | ------------- |
 | ranking_type  | Specifying the ranking criteria See [`MangaRankingType`](https://github.com/klawingco/mal-management-JS/blob/main/src/types/mal-enum.ts#L114) |
-| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheatsheet)
 | nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
 | limit (optional)  | Pagination |
 | offset (optional)  | Pagination |
@@ -482,7 +484,7 @@ const client = mal.createClient({
 
 <table border="0">
  <tr>
-    <td>
+  <td>
 
   - alternative_titles
   - start_date
@@ -495,8 +497,10 @@ const client = mal.createClient({
   - num_scoring_users
   - nsfw
   - created_at  
-    </td>
-    <td>
+
+  </td>
+  <td>
+
   - media_type
   - status
   - genres
@@ -507,7 +511,8 @@ const client = mal.createClient({
   - recommendations
   - statistics
   - my_list_status    
-    </td>
+
+  </td>
  </tr>
 </table>
  
@@ -563,14 +568,17 @@ There are also default Fields for User Profile that will always be present irreg
 
 ## Future Plans
 
-The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also to ease the backend integration.
+Although currently APIs that MAL offers is very limited. 
+
+The aim of this library is to be `Backend and Scripts First`, while technically you can use this at Front end space. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also to ease the backend integration.  
 
 For example, if in `FUTURE` MAL officially release an api for a Anime's characters.
 
 This wrapper could end with api of 
 
 ```javascript
-client.getAnimeDetail({id: 30276}).getCharacters()
+const anime = client.getAnimeDetail({id: 30276})
+const characters = anime.getCharacters()
 ```
 
 
