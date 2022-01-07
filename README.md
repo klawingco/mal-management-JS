@@ -1,10 +1,15 @@
 # MAL Management JS
 
-> Note: This repo is still in work on progress and code quality is for `MVP`.
+<img src="https://img.shields.io/npm/l/mal-management-js" />
+<img src="https://img.shields.io/npm/dw/mal-management-js" />
+
+<br/>
+
+> Note: This repo is still in aggressive development.
 
 At first with the roll out of new MAL v2 api, I just want to play around th api itself however I find it inconvenient to do different call to each of items I needed off the api. 
 
-These is heavily inspired from contentful-management-js, and actually created because I want to manage my anime using a globally installed `CLI` . But in order to create a cli, A good wrapper is firstly needed hence this project is born.
+These is heavily inspired from `contentful-management.js`, and actually created because I want to manage my anime using a globally installed `CLI` . But in order to create a cli, a good wrapper that is easy to use, fluent, developer friendly and removes the pain staking part of api call creation is needed, hence the project is born. 
 
 Current Features available
 - Public Anime
@@ -28,6 +33,8 @@ Current Features available
 12. [User Profile](#getting-user-profile)
 13. [Logging](#logging)
 14. [Field Cheatsheet](#field-cheetsheet)
+15. [Gotchas](#gotchas)
+16. [Future Plans](#future-plans)
 
 ## Instantiating the Client
 
@@ -250,6 +257,23 @@ client.getManga({ q: 'Jujutsu Kaisen' }).then(mangas => console.log(mangas))
 Both of approach mentioned can be chained with `.catch` for error busting and such.
 Specifiying `Fields` are also available.
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| q  | Search String |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet) |
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+
+<br/>
+
 ## Getting Manga Detail
 
 For example you just want to get the detail of the first result from `getManga()`.
@@ -282,9 +306,21 @@ const mangaDetail = await client
     // Or using string
     // fields:  ['alternative_titles', 'start_date']
 })
-
 ```
 
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaDetailOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| id  | manga id |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+
+</p>
+</details>
+
+<br/>
 
 ## Getting Manga Ranking List
 
@@ -300,6 +336,21 @@ There's a exposed Typescript `Type` called `MangaRankingType`
 ```typescript
 export type MangaRankingType = 'all' | 'manga' | 'novels' | 'oneshots' |'doujin' | 'manhwa' | 'manhua' | 'bypopularity'| 'favorite'
 ```
+<details>
+<summary style="color:#f47067; font-weight:bold">Full Configuration Options (MangaRankingListOptions)</summary>
+<p>
+
+| Options  | Description |
+| ------------- | ------------- |
+| ranking_type  | Specifying the ranking criteria See [`MangaRankingType`](https://github.com/klawingco/mal-management-JS/blob/main/src/types/mal-enum.ts#L114) |
+| fields (optional)  |  Use to add additional fields the api should return. See [field cheatsheet](#field-cheetsheet)
+| nsfw (optional)  | If global allowNSFW() is not present, you could use this option to explicitly allow nsfw for the current request  |
+| limit (optional)  | Pagination |
+| offset (optional)  | Pagination |
+
+</p>
+</details>
+<br/>
 
 ## Getting Main Forum Boards
 This will return all of Main Forum Boards Categories
@@ -425,35 +476,6 @@ const client = mal.createClient({
 
 <br/>
 
-## Gotchas
-
-### About `fields` field
-
-> Fields are way to control what `fields` are going to be responsed by MAL API. 
-
-At default `id, title, main_picture` will always be present regardless if you put it at `fields` or not.
-
-
-Another thing is some of the `field options` are only available to `details` endpoint
-examples of such are
-- picture
-- background
-- related_anime
-- related_manga
-- recommendations
-- statistics
-
-**User Fields**
-
-There are also default Fields for User Profile that will always be present irregardless if you added it at `fields` options, namely.
-- id
-- name
-- picture
-- gender
-- birthday
-- joined_at
-- location
-
 ## Field Cheatsheet
 
 ### Common Fields (Applies to Both Anime and Manga)
@@ -510,7 +532,36 @@ There are also default Fields for User Profile that will always be present irreg
 
 
 
-### Future Plans
+## Gotchas
+
+### About `fields` field
+
+> Fields are way to control what `fields` are going to be responsed by MAL API. 
+
+At default `id, title, main_picture` will always be present regardless if you put it at `fields` or not.
+
+
+Another thing is some of the `field options` are only available to `details` endpoint
+examples of such are
+- picture
+- background
+- related_anime
+- related_manga
+- recommendations
+- statistics
+
+**User Fields**
+
+There are also default Fields for User Profile that will always be present irregardless if you added it at `fields` options, namely.
+- id
+- name
+- picture
+- gender
+- birthday
+- joined_at
+- location
+
+## Future Plans
 
 The aim of this is to be `Backend First`, while technically you can use this at Front end. The rationale was to create a wrapper tool to navigate and manage MyAnimeList via scripts and also to ease the backend integration.
 
