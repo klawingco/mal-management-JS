@@ -20,6 +20,7 @@ import {
   UserProfile,
 } from './mal-api-responses'
 import { IAuthorization } from './authorization'
+import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
 interface CreateClient {
   getAnime: (opts: AnimeListOptions) => Promise<Anime[]>
@@ -35,7 +36,14 @@ interface CreateClient {
     opts: ForumTopicDetailOptions
   ) => Promise<ForumTopicDetail[]>
   getUserProfile: (opts?: UserProfileOptions) => Promise<UserProfile[]>
+  // Extensions
   allowNSFW: () => CreateClient
+  setRequestLogger: (
+    callback?: (request: AxiosRequestConfig) => void
+  ) => CreateClient
+  setResponseLogger: (
+    callback?: (response: AxiosResponse<any>) => void
+  ) => CreateClient
 }
 
 export interface IMAL extends IAuthorization {

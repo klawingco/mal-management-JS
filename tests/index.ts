@@ -9,13 +9,15 @@ const CLIENT_SECRET = process.env.CLIENT_SECRET || ''
 const ACCESS_TOKEN = process.env.ACCESS_TOKEN || ''
 
 const testAnime = async () =>{
-  const client = mal.createClient({
-    clientId: CLIENT_ID,
-    accessToken: ACCESS_TOKEN,
-  })
+  const client = mal
+    .createClient({
+      clientId: CLIENT_ID,
+      accessToken: ACCESS_TOKEN,
+    })
+    .allowNSFW()
 
   const animes = await client
-    .getAnime({ q: 'Saimin', fields: [] })
+    .getAnime({ q: 'Jujutsu Kaisen', fields: [] })
     .catch((err) => console.log(err))
 
   console.log('RESULT', animes && animes)
@@ -126,7 +128,11 @@ const testForum = async () =>{
 const testUser = async () =>{
   const client = mal.createClient({
     accessToken: ACCESS_TOKEN,
+  }).setRequestLogger((request)=> {
+    console.log('REQUEST URL', request.url)
+    console.log('REQUEST QUERIES', request.params)
   })
+
   const userProfile = await client.getUserProfile({
     fields: [UserFields.anime_statistics, UserFields.is_supporter, UserFields.time_zone]
   })
