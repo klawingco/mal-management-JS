@@ -1,6 +1,6 @@
 {
   "name": "mal-management-js",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A MyAnimeList API Wrapper",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
