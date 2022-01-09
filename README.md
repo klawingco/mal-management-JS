@@ -47,9 +47,10 @@ const client = mal.createClient({
 })
 ```
 
-If you need to use authenticated api endpoints.
+If you need to use user authenticated endpoints.
 ```javascript
 import mal from 'mal-management-js'
+// import {createClient} from 'mal-management-js'
 ...
 const client = mal.createClient({
   accessToken: ACCESS_TOKEN,
@@ -67,7 +68,7 @@ const client = mal.createClient({
 
 **NSFW**
 
-By default NSFW are automatically filtered, if you want to include nsfw entries, you could instantiate the `createClient` with `.allowNSFW()` extension. This setting will affect all of subsequent functions and is useful for setting general NSFW rule.
+By default NSFW are automatically filtered out, if you want to include nsfw entries, you could instantiate the `createClient` with `.allowNSFW()` extension. This setting will affect all of subsequent request and is useful for setting general NSFW rule.
 
 ```javascript
 const client = mal.createClient({
@@ -127,7 +128,6 @@ Both of approach mentioned can be chained with `.catch` for error busting and su
 ## Getting Anime Detail
 
 For example you just want to get the detail of the first result from `getAnime()`.
-You could chain it like this
 
 ```javascript
 const animes = await client
