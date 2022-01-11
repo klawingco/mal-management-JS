@@ -1,7 +1,7 @@
 # MAL Management JS
 
-<img src="https://img.shields.io/npm/l/mal-management-js" />
-<img src="https://img.shields.io/npm/dw/mal-management-js" />
+![License](https://img.shields.io/npm/l/mal-management-js)
+![Downloads](https://img.shields.io/npm/dw/mal-management-js)
 
 
 At first with the roll out of new MAL v2 api, I just want to play around th api itself however I find it inconvenient to do different call to each of items I needed off the api. 
