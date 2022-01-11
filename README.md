@@ -17,6 +17,16 @@ Current Features available
 In flight
 - Update User Manga and Anime Entries
 
+# Installation
+Yarn
+```javascript
+yarn add mal-management-js
+```
+Npm
+```javascript
+npm install mal-management-js
+```
+
 # Usage
 
 1. [Instantiating the Client](#instantiating-the-client)
