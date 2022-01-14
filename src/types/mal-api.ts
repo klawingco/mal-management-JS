@@ -8,6 +8,8 @@ import {
   AnimeSortType,
   ForumSortType,
   UserFields,
+  AnimeWatchStatus,
+  AnimeListSortType,
 } from './mal-enum'
 import {
   Anime,
@@ -27,6 +29,7 @@ interface CreateClient {
   getAnimeDetail: (opts: AnimeDetailOptions) => Promise<AnimeDetail>
   getAnimeRanking: (opts: AnimeRankingListOptions) => Promise<Anime[]>
   getAnimeSeasonal: (opts: AnimeSeasonalListOptions) => Promise<Anime[]>
+  getUserAnime: (opts: UserAnimeListOptions) => Promise<Anime[]>
   getManga(opts: MangaListOptions): Promise<Manga[]>
   getMangaDetail(opts: MangaDetailOptions): Promise<MangaDetail>
   getMangaRanking: (opts: MangaRankingListOptions) => Promise<Manga[]>
@@ -129,6 +132,11 @@ export interface UserProfileOptions {
   fields?: UserFields[] | string[]
 }
 
+export interface UserAnimeListOptions extends Pagination {
+  fields?: Fields[]
+  status?: AnimeWatchStatus
+  sort?: AnimeListSortType
+}
 
 export type QueryOpts =
   | AnimeListOptions
@@ -139,5 +147,6 @@ export type QueryOpts =
   | MangaListOptions
   | MangaRankingListOptions
   | UserProfileOptions
+  | UserAnimeListOptions
 
 

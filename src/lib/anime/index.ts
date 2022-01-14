@@ -2,6 +2,7 @@ import {
   MAL_ANIME_URL,
   MAL_ANIME_RANKING,
   MAL_ANIME_SEASONAL,
+  MAL_USER_URL,
 } from '../../constants'
 import {
   ApiRequest,
@@ -12,6 +13,7 @@ import {
   AnimeRankingListOptions,
   AnimeSeasonalListOptions,
   AnimeFields,
+  UserAnimeListOptions,
 } from '../../types'
 import { shapeDataList, shapeQuery } from '../../util'
 
@@ -68,6 +70,30 @@ const initAnime = (apiRequest: ApiRequest) => {
         shapeQuery(
           `${MAL_ANIME_SEASONAL}/${animeSeasonalOpts.year}/${animeSeasonalOpts.season}`,
           animeSeasonalOpts,
+          AnimeFields
+        )
+      ).catch((err) => {
+        throw err
+      })
+      return shapeDataList<Anime>(data.data, this.getAnimeDetail)
+    },
+    /*
+        Get User Anime List
+    */
+    async getUserAnime(opts: UserAnimeListOptions): Promise<Anime[]> {
+      const optFields = opts?.fields || [] 
+      const sort = opts?.sort || 'list_updated_at'
+      const { data = null } = await apiRequest(
+        shapeQuery(
+          `${MAL_USER_URL}/@me/animelist`,
+          {
+            ...opts,
+            sort,
+            fields: [
+              ...optFields,
+              AnimeFields['my_list_status{priority,comments}'],
+            ],
+          },
           AnimeFields
         )
       ).catch((err) => {
