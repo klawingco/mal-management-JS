@@ -19,7 +19,7 @@ export enum GenericFields {
   related_manga,
   recommendations,
   statistics,
-  my_list_status,
+  'my_list_status{priority,comments}',
 }
 
 export enum AnimeSpecificFields {
@@ -30,6 +30,8 @@ export enum AnimeSpecificFields {
   average_episode_duration,
   rating,
   studios,
+  // For User List only
+  list_status,
 }
 
 export enum MangaSpecificFields {
@@ -122,7 +124,20 @@ export type MangaRankingType =
   | 'bypopularity'
   | 'favorite'
 
-
 export type ForumSortType = | 'recent'
+
+export type AnimeWatchStatus =
+  | 'watching'
+  | 'completed'
+  | 'on_hold'
+  | 'dropped'
+  | 'plan_to_watch'
+
+export type AnimeListSortType =
+  | 'list_score'
+  | 'list_updated_at'
+  | 'anime_title'
+  | 'anime_start_date'
+  | 'anime_id' // MAL: Under development
 
 

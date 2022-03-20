@@ -137,6 +137,12 @@ const testUser = async () =>{
     fields: [UserFields.anime_statistics, UserFields.is_supporter, UserFields.time_zone]
   })
   console.log('My Profile ', userProfile)  
+
+  const userAnime = await client.getUserAnime({
+    sort: 'list_updated_at',
+  })
+
+  console.log('User AnimeList ', userAnime)  
 }
 
 const test = async () => {
